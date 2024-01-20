@@ -1,0 +1,14 @@
+
+.main-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding: 0 20px;
+    background-color: black;
+    border-bottom: 1px solid purple;
+
+    .active-link {
+        color: purple;
+    }
+}
