@@ -17,6 +17,8 @@ function NewRecipe() {
 
     const onSubmit = (data) => {
         console.log(data);
+        console.log(ingredients);
+        setIngredients([]);
         reset();
     }
 
@@ -49,7 +51,16 @@ function NewRecipe() {
                     {errors["main-ingredient"] && <p className="error">This field is required</p>}
                 </div>
 
-                {/* show ingredients here */}
+                {ingredients.length > 0 && (
+                    <div className="new-ingredients-list">
+                        {ingredients.map((ingredient, index) => (
+                            <div className="new-ingredient" key={index}>
+                                <p>{ingredient.ingredient}</p>
+                                <p>{ingredient.ingredientAmount}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 <div className="form-group">
                     <label htmlFor="ingredient">Ingredient</label>
