@@ -6,6 +6,7 @@ import { DUMMY_DATA } from "../../store/DUMMY_DATA";
 function RecipeDetail() {
     const { id } = useParams();
     const [recipe, setRecipe] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // fetch(`/api/recipe/${id}`)
@@ -17,7 +18,12 @@ function RecipeDetail() {
                 setRecipe(DUMMY_DATA[i]);
             }
         }
+        setIsLoading(false);
     })
+
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <div className="recipe-detail">

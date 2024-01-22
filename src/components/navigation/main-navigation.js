@@ -6,7 +6,7 @@ function MainNavigation() {
         <nav className="main-navigation">
             <div className="main-navigation-left">
                 <NavLink to="/" className={({ isActive }) => isActive ? "active-link main-navigation-link" : "main-navigation-link"} end>Home</NavLink>
-                <NavLink to='/new-recipe' className={({ isActive }) => isActive ? "active-link main-navigation-link" : "main-navigation-link"}>Add New Recipe</NavLink>
+                <NavLink to='/recipe/new' className={({ isActive }) => isActive ? "active-link main-navigation-link" : "main-navigation-link"}>Add New Recipe</NavLink>
             </div>
 
             <div className="main-navigation-right">
