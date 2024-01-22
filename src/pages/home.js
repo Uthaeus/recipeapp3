@@ -1,6 +1,7 @@
 
 import { DUMMY_DATA } from "../store/DUMMY_DATA";
 import RecipeItem from "../components/recipe/recipe-item";
+import Sidebar from "../components/sidebar/sidebar";
 
 function Home() {
 
@@ -12,7 +13,7 @@ function Home() {
             </div>
 
             <div className="home-right">
-                <h1>Right</h1>
+                <Sidebar />
             </div>
         </div>
     );

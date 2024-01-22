@@ -5,12 +5,8 @@
     align-items: center;
     height: 40px;
     padding: 0 20px;
-    background-color: rgba(0, 0, 0, 0.199);
-    border-bottom: 1px solid rgba(128, 0, 128, 0.192);
-
-    .active-link {
-        color: purple;
-    }
+    background-color: rgba(0, 0, 0, 0.055);
+    border-bottom: 1px solid rgba(128, 0, 128, 0.075);
 
     .main-navigation-link {
         color: black;
@@ -24,5 +20,9 @@
             color: purple;
             transform: scale(1.1);
         }
+    }
+
+    .active-link {
+        color: purple;
     }
 }
