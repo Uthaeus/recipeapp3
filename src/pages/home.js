@@ -6,9 +6,14 @@ function Home() {
 
     return (
         <div className="home">
-            <h1>Home</h1>
+            <div className="home-left">
 
-            {DUMMY_DATA.map((recipe) => <RecipeItem key={recipe.id} {...recipe} />)}
+                {DUMMY_DATA.map((recipe) => <RecipeItem key={recipe.id} {...recipe} />)}
+            </div>
+
+            <div className="home-right">
+                <h1>Right</h1>
+            </div>
         </div>
     );
 }
