@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import RecipeContextProvider from './store/recipe-context';
+
 import RootLayout from "./components/layouts/root-layout";
 import Home from "./pages/home";
 import NewRecipe from "./components/recipe/new-recipe";
@@ -26,7 +28,11 @@ const router = createBrowserRouter([
   }
 ])
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <RecipeContextProvider>
+      <RouterProvider router={router} />
+    </RecipeContextProvider>  
+  );
 }
 
 export default App;
