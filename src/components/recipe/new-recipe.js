@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
+
+import { RecipeContext } from "../../store/recipe-context";
 function NewRecipe() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [ingredients, setIngredients] = useState([]);
@@ -22,9 +24,14 @@ function NewRecipe() {
     const onSubmit = (data) => {
         console.log(data);
         console.log(ingredients);
+
+        // create unique id
+        const id = new Date().getTime();
+
         addRecipe({
             ...data,
-            ingredients
+            ingredients,
+            id
         })
         setIngredients([]);
         reset();
@@ -55,9 +62,9 @@ function NewRecipe() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="main-ingredient">Main Ingredient</label>
-                    <input type="text" className="form-control" {...register("main-ingredient", { required: true })} />
-                    {errors["main-ingredient"] && <p className="error">This field is required</p>}
+                    <label htmlFor="main_ingredient">Main Ingredient</label>
+                    <input type="text" className="form-control" {...register("main_ingredient", { required: true })} />
+                    {errors["main_ingredient"] && <p className="error">This field is required</p>}
                 </div>
 
                 {ingredients.length > 0 && (
@@ -77,8 +84,8 @@ function NewRecipe() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="ingredient-amount">Amount</label>
-                    <input type="text" id='ingredient-amount' className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                    <label htmlFor="amount">Amount</label>
+                    <input type="text" id='amount' className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
 
                 <p className="add-ingredient" onClick={addIngredient}>Add Ingredient</p>

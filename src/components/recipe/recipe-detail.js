@@ -1,21 +1,22 @@
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
-import { DUMMY_DATA } from "../../store/DUMMY_DATA";
+import { RecipeContext } from "../../store/recipe-context";
 
 function RecipeDetail() {
     const { id } = useParams();
     const [recipe, setRecipe] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+    const { recipes } = useContext(RecipeContext);
 
     useEffect(() => {
         // fetch(`/api/recipe/${id}`)
         //     .then(res => res.json())
         //     .then(data => setRecipe(data))
         //     .catch(err => console.log(err));
-        for (let i = 0; i < DUMMY_DATA.length; i++) {
-            if (DUMMY_DATA[i].id === parseInt(id)) {
-                setRecipe(DUMMY_DATA[i]);
+        for (let i = 0; i < recipes.length; i++) {
+            if (recipes[i].id === parseInt(id)) {
+                setRecipe(recipes[i]);
             }
         }
         setIsLoading(false);
@@ -36,7 +37,7 @@ function RecipeDetail() {
             <p>{recipe.main_ingredient}</p>
 
             <ul>
-                {recipe.ingredients.map((ingredient, index) => (
+                {recipe.ingredients?.map((ingredient, index) => (
                     <li key={index}>
                         <p>{ingredient.ingredient}</p>
                         <p>{ingredient.ingredientAmount}</p>
