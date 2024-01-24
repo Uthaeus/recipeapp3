@@ -1,25 +1,34 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useContext } from "react";
+import { useNavigate } from "react-router";
 function NewRecipe() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [ingredients, setIngredients] = useState([]);
     const [ingredient, setIngredient] = useState("");
-    const [ingredientAmount, setIngredientAmount] = useState("");
+    const [amount, setAmount] = useState("");
+    const { addRecipe } = useContext(RecipeContext);
+    const navigate = useNavigate();
 
     const addIngredient = () => {
-        if (ingredient === "" || ingredientAmount === "") {
+        if (ingredient === "" || amount === "") {
             return;
         }
-        setIngredients([...ingredients, { ingredient, ingredientAmount }]);
+        setIngredients([...ingredients, { ingredient, amount }]);
         setIngredient("");
-        setIngredientAmount("");
+        setAmount("");
     }
 
     const onSubmit = (data) => {
         console.log(data);
         console.log(ingredients);
+        addRecipe({
+            ...data,
+            ingredients
+        })
         setIngredients([]);
         reset();
+        navigate("/");
     }
 
     return (
@@ -69,7 +78,7 @@ function NewRecipe() {
 
                 <div className="form-group">
                     <label htmlFor="ingredient-amount">Amount</label>
-                    <input type="text" id='ingredient-amount' className="form-control" value={ingredientAmount} onChange={(e) => setIngredientAmount(e.target.value)} />
+                    <input type="text" id='ingredient-amount' className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
                 </div>
 
                 <p className="add-ingredient" onClick={addIngredient}>Add Ingredient</p>
