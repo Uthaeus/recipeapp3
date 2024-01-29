@@ -20,7 +20,7 @@ function RecipeDetail() {
             }
         }
         setIsLoading(false);
-    })
+    }, [recipes, id]);
 
     if (isLoading) {
         return <p>Loading...</p>;

@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import { collection, addDoc } from "firebase/firestore";
 
@@ -8,7 +7,7 @@ import { RecipeContext } from "../../store/recipe-context";
 import { db } from "../../firebase-config";
 
 function NewRecipe() {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [ingredients, setIngredients] = useState([]);
     const [ingredient, setIngredient] = useState("");
     const [amount, setAmount] = useState("");
