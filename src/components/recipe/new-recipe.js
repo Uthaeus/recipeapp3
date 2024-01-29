@@ -2,8 +2,11 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
+import { collection, addDoc } from "firebase/firestore";
 
 import { RecipeContext } from "../../store/recipe-context";
+import { db } from "../../firebase-config";
+
 function NewRecipe() {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [ingredients, setIngredients] = useState([]);
@@ -21,20 +24,24 @@ function NewRecipe() {
         setAmount("");
     }
 
-    const onSubmit = (data) => {
-        console.log(data);
-        console.log(ingredients);
+    const onSubmit = async (data) => {
+        let newRecipeId;
 
-        // create unique id
-        const id = new Date().getTime();
+        try {
+                const docRef = await addDoc(collection(db, "recipes"), {
+                    ...data,
+                    ingredients: ingredients
+                });
+                newRecipeId = docRef.id;
+        } catch (e) {
+                console.error("Error adding document: ", e);
+        }
 
         addRecipe({
             ...data,
             ingredients,
-            id
-        })
-        setIngredients([]);
-        reset();
+            id: newRecipeId
+        });
         navigate("/");
     }
 
