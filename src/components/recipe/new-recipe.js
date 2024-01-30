@@ -46,7 +46,7 @@ function NewRecipe() {
 
     return (
         <div className="new-recipe">
-            <h1>New Recipe</h1>
+            <h1 className="new-recipe-title">New Recipe</h1>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
@@ -67,22 +67,28 @@ function NewRecipe() {
                     {errors.time && <p className="error">This field is required</p>}
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="main_ingredient">Main Ingredient</label>
-                    <input type="text" className="form-control" {...register("main_ingredient", { required: true })} />
-                    {errors["main_ingredient"] && <p className="error">This field is required</p>}
-                </div>
-
-                {ingredients.length > 0 && (
-                    <div className="new-ingredients-list">
-                        {ingredients.map((ingredient, index) => (
-                            <div className="new-ingredient" key={index}>
-                                <p>{ingredient.ingredient}</p>
-                                <p>{ingredient.ingredientAmount}</p>
-                            </div>
-                        ))}
+                <div className="row">
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="main_ingredient">Main Ingredient</label>
+                            <input type="text" className="form-control" {...register("main_ingredient", { required: true })} />
+                            {errors["main_ingredient"] && <p className="error">This field is required</p>}
+                        </div>
                     </div>
-                )}
+
+                    <div className="col-6">
+                        {ingredients.length > 0 && (
+                            <div className="new-ingredients-list">
+                                {ingredients.map((ingredient, index) => (
+                                    <div className="new-ingredient" key={index}>
+                                        <p>{ingredient.ingredient}</p>
+                                        <p>{ingredient.ingredientAmount}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
 
                 <div className="form-group">
                     <label htmlFor="ingredient">Ingredient</label>

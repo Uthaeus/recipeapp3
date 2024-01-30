@@ -1,0 +1,16 @@
+
+.new-recipe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+
+    .new-recipe-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    
+}
