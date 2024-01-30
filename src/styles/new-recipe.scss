@@ -12,5 +12,61 @@
         color: black;
     }
 
-    
+    form {
+        width: 45%;
+        background-color: rgba(128, 128, 128, 0.205);
+        padding: 20px 30px;
+        border-radius: 20px;
+        
+        .new-ingredients-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+
+            .new-ingredient-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.144);
+
+                .new-ingredient {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+
+                .new-amt {
+                    font-size: 12px;
+                    font-weight: bold;
+                    color: purple;
+                }
+            }
+        }
+
+        .add-ingredient {
+            margin: 0 20%;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: blue;
+            background-color: white;
+            border-radius: 4px;
+            transition: color 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+            &:hover {
+                cursor: pointer;
+                color: teal;
+                transform: scale(1.04);
+                background-color: rgba(128, 128, 128, 0.205);
+            }
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+    }
 }

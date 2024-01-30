@@ -67,22 +67,34 @@ function NewRecipe() {
                     {errors.time && <p className="error">This field is required</p>}
                 </div>
 
+                <div className="form-group">
+                    <label htmlFor="main_ingredient">Main Ingredient</label>
+                    <input type="text" className="form-control" {...register("main_ingredient", { required: true })} />
+                    {errors["main_ingredient"] && <p className="error">This field is required</p>}
+                </div>
+
                 <div className="row">
                     <div className="col-6">
                         <div className="form-group">
-                            <label htmlFor="main_ingredient">Main Ingredient</label>
-                            <input type="text" className="form-control" {...register("main_ingredient", { required: true })} />
-                            {errors["main_ingredient"] && <p className="error">This field is required</p>}
+                            <label htmlFor="ingredient">Ingredient</label>
+                            <input type="text" id='ingredient' className="form-control" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
                         </div>
+
+                        <div className="form-group">
+                            <label htmlFor="amount">Amount</label>
+                            <input type="text" id='amount' className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                        </div>
+
+                        <p className="add-ingredient" onClick={addIngredient}>Add Ingredient</p>
                     </div>
 
                     <div className="col-6">
                         {ingredients.length > 0 && (
                             <div className="new-ingredients-list">
                                 {ingredients.map((ingredient, index) => (
-                                    <div className="new-ingredient" key={index}>
-                                        <p>{ingredient.ingredient}</p>
-                                        <p>{ingredient.ingredientAmount}</p>
+                                    <div className="new-ingredient-item" key={index}>
+                                        <p className="new-ingredient">{ingredient.ingredient}</p>
+                                        <p className="new-amt">{ingredient.amount}</p>
                                     </div>
                                 ))}
                             </div>
@@ -90,24 +102,14 @@ function NewRecipe() {
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="ingredient">Ingredient</label>
-                    <input type="text" id='ingredient' className="form-control" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="amount">Amount</label>
-                    <input type="text" id='amount' className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
-                </div>
-
-                <p className="add-ingredient" onClick={addIngredient}>Add Ingredient</p>
+                
 
                 <div className="form-group">
                     <label htmlFor="instructions">Instructions</label>
                     <textarea className="form-control" rows="8" {...register("instructions", { required: true })} />
                 </div>
 
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">Create Recipe</button>
             </form>
         </div>
     );
