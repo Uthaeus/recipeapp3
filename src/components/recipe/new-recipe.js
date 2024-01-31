@@ -27,13 +27,13 @@ function NewRecipe() {
         let newRecipeId;
 
         try {
-                const docRef = await addDoc(collection(db, "recipes"), {
-                    ...data,
-                    ingredients: ingredients
-                });
-                newRecipeId = docRef.id;
+            const docRef = await addDoc(collection(db, "recipes"), {
+                ...data,
+                ingredients: ingredients
+            });
+            newRecipeId = docRef.id;
         } catch (e) {
-                console.error("Error adding document: ", e);
+            console.error("Error adding document: ", e);
         }
 
         addRecipe({
@@ -101,9 +101,7 @@ function NewRecipe() {
                         )}
                     </div>
                 </div>
-
                 
-
                 <div className="form-group">
                     <label htmlFor="instructions">Instructions</label>
                     <textarea className="form-control" rows="8" {...register("instructions", { required: true })} />
