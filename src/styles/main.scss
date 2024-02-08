@@ -1,5 +1,7 @@
 @import 'bootstrap';
 
+@import url('https://fonts.googleapis.com/css2?family=Caveat&family=Protest+Strike&display=swap');
+
 @import 'main-navigation';
 @import 'home';
 @import 'sidebar';
@@ -10,3 +12,9 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-family: 'Protest Strike', sans-serif;
+}
+    

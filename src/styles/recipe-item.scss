@@ -6,17 +6,22 @@
     justify-content: flex-end;
     border-radius: 20px;
     text-decoration: none;
-    transition: transform 0.3s ease-in-out;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    overflow: hidden;
 
     &:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
     }
 
     .recipe-item-title {
         font-size: 3rem;
         font-weight: bold;
+        margin-left: 15px;
         margin-bottom: 10px;
-        color: black;
+        color: rgb(69, 36, 107);
+        text-decoration: underline;
     }
 
     .recipe-item-details {
@@ -27,12 +32,12 @@
 
         .recipe-item-description {
             font-size: 16px;
-            color: grey;
+            color: rgb(44, 44, 44);
         }
 
         .recipe-item-time {
             font-size: 12px;
-            color: green;
+            color: rgb(0, 55, 128);
         }
     }
 }

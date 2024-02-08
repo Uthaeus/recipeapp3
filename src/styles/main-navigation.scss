@@ -5,11 +5,11 @@
     align-items: center;
     height: 40px;
     padding: 0 20px;
-    background-color: rgba(0, 0, 0, 0.055);
+    background-color: rgba(15, 11, 20, 0.61);
     border-bottom: 1px solid rgba(128, 0, 128, 0.075);
 
     .main-navigation-link {
-        color: black;
+        color: rgb(87, 71, 1);
         text-decoration: none;
         margin: 0 20px;
         font-size: 20px;
@@ -17,12 +17,12 @@
         transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 
         &:hover {
-            color: purple;
+            color: rgb(197, 163, 9);
             transform: scale(1.1);
         }
     }
 
     .active-link {
-        color: purple;
+        color: rgb(153, 127, 11);
     }
 }
