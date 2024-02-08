@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import image from '../../assets/images/overtime_image2.jpeg';
+import image from '../../assets/images/pasta_image.png';
 function RecipeItem(props) {
 
     return (
