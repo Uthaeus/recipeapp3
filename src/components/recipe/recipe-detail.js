@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { useEffect, useState, useContext } from "react";
 
 import { RecipeContext } from "../../store/recipe-context";
+import defaultImage from '../../assets/images/pasta_image.png';
 
 function RecipeDetail() {
     const { id } = useParams();
@@ -28,8 +29,8 @@ function RecipeDetail() {
 
     return (
         <div className="recipe-detail">
-            
-            {recipe.image && <img src={recipe.image} alt={recipe.title} />}
+
+            {recipe.image ? <img src={recipe.image} alt={recipe.title} /> : <img src={defaultImage} alt={recipe.title} />}
 
             <h1>{recipe.title}</h1>
 

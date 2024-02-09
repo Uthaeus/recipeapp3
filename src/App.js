@@ -1,4 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useEffect } from "react";
+
+import { db } from "./firebase-config";
+import { collection, getDocs } from "firebase/firestore";
+import { addRecipe } from "./store/recipe-context";
 
 import RecipeContextProvider from './store/recipe-context';
 
@@ -28,6 +33,19 @@ const router = createBrowserRouter([
   }
 ])
 function App() {
+
+  useEffect(() => {
+    getDocs(collection(db, "recipes"))
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          addRecipe({
+            id: doc.id,
+            ...doc.data()
+          })
+        })
+      })
+  }, [])
+  
   return (
     <RecipeContextProvider>
       <RouterProvider router={router} />

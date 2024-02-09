@@ -1,7 +1,5 @@
 import { createContext, useState } from "react";
 
-import { DUMMY_DATA } from "./DUMMY_DATA";
-
 export const RecipeContext = createContext({
     recipes: [],
     addRecipe: () => {},
@@ -12,7 +10,7 @@ export const RecipeContext = createContext({
 
 const RecipeContextProvider = ({ children }) => {
 
-    const [recipes, setRecipes] = useState(DUMMY_DATA);
+    const [recipes, setRecipes] = useState([]);
 
     const addRecipe = (recipe) => {
         setRecipes([...recipes, recipe]);

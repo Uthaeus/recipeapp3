@@ -8,7 +8,6 @@ import Sidebar from "../components/sidebar/sidebar";
 function Home() {
     const [recipeFilter, setRecipeFilter] = useState("");
     const [filteredRecipes, setFilteredRecipes] = useState([]);
-    const [recipeList, setRecipeList] = useState([]);
     const { recipes } = useContext(RecipeContext);
 
     useEffect(() => {
