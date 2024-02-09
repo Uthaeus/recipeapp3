@@ -16,6 +16,7 @@ function Home() {
         } else {
             setFilteredRecipes(recipes.filter((recipe) => recipe.main_ingredient === recipeFilter));
         }
+        console.log(recipes);
     }, [recipes, recipeFilter]);
 
     const handleFilterChange = (f) => {

@@ -3,7 +3,8 @@ import { useEffect } from "react";
 
 import { db } from "./firebase-config";
 import { collection, getDocs } from "firebase/firestore";
-import { addRecipe } from "./store/recipe-context";
+
+import { RecipeContext } from "./store/recipe-context";
 
 import RecipeContextProvider from './store/recipe-context';
 
@@ -33,18 +34,19 @@ const router = createBrowserRouter([
   }
 ])
 function App() {
+  const { setRecipeList } = useContext(RecipeContext);
 
   useEffect(() => {
-    getDocs(collection(db, "recipes"))
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          addRecipe({
-            id: doc.id,
-            ...doc.data()
-          })
-        })
-      })
-  }, [])
+    const getRecipes = async () => {
+      const recipesCollection = collection(db, "recipes");
+      const recipesSnapshot = await getDocs(recipesCollection);
+      const recipesList = recipesSnapshot.docs.map(doc => {
+        return { ...doc.data(), id: doc.id };
+      });
+      setRecipeList(recipesList);
+    }
+    getRecipes();
+  }, []);
   
   return (
     <RecipeContextProvider>
