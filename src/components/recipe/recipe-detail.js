@@ -28,6 +28,9 @@ function RecipeDetail() {
 
     return (
         <div className="recipe-detail">
+            
+            {recipe.image && <img src={recipe.image} alt={recipe.title} />}
+
             <h1>{recipe.title}</h1>
 
             <p>{recipe.description}</p>

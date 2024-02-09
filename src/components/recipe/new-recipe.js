@@ -1,18 +1,33 @@
 import { useForm } from "react-hook-form";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { collection, addDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { RecipeContext } from "../../store/recipe-context";
 import { db } from "../../firebase-config";
+import { storage } from "../../firebase-config";
 
 function NewRecipe() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [ingredients, setIngredients] = useState([]);
     const [ingredient, setIngredient] = useState("");
     const [amount, setAmount] = useState("");
+    const [imageUpload, setImageUpload] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
     const { addRecipe } = useContext(RecipeContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (imageUpload) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            }
+            reader.readAsDataURL(imageUpload);
+        }
+    }, [imageUpload]);
 
     const addIngredient = () => {
         if (ingredient === "" || amount === "") {
@@ -23,13 +38,26 @@ function NewRecipe() {
         setAmount("");
     }
 
+    const uploadImage = async () => {
+        if (imageUpload == null) return;
+        const imageRef = ref(storage, `images/${imageUpload.name + Date.now()}`);
+        try {
+            await uploadBytes(imageRef, imageUpload);
+            const url = await getDownloadURL(imageRef);
+            setImageUrl(url);
+        } catch (e) {
+            console.error("Error uploading image: ", e);
+        }
+    }
+
     const onSubmit = async (data) => {
         let newRecipeId;
 
         try {
             const docRef = await addDoc(collection(db, "recipes"), {
                 ...data,
-                ingredients: ingredients
+                ingredients: ingredients,
+                image: imageUrl
             });
             newRecipeId = docRef.id;
         } catch (e) {
@@ -39,7 +67,8 @@ function NewRecipe() {
         addRecipe({
             ...data,
             ingredients,
-            id: newRecipeId
+            id: newRecipeId,
+            image: imageUrl
         });
         navigate("/");
     }
@@ -47,6 +76,17 @@ function NewRecipe() {
     return (
         <div className="new-recipe">
             <h1 className="new-recipe-title">New Recipe</h1>
+
+            <div className="new-image-container">
+                <div className="new-image-input-wrapper">
+                    <input type='file' className="new-image-input" onChange={(e) => setImageUpload(e.target.files[0])} />
+                    <button className="new-image-button" onClick={uploadImage}>Upload Image</button>
+                </div>
+
+                {imagePreview && (
+                    <img src={imagePreview} alt="Preview" className="new-image-preview" />
+                )}
+            </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
