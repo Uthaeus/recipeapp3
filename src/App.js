@@ -10,6 +10,7 @@ import RootLayout from "./components/layouts/root-layout";
 import Home from "./pages/home";
 import NewRecipe from "./components/recipe/new-recipe";
 import RecipeDetail from "./components/recipe/recipe-detail";
+import EditRecipe from "./components/recipe/edit-recipe";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: '/recipe/:id',
         element: <RecipeDetail />
+      },
+      {
+        path: '/recipe/:id/edit',
+        element: <EditRecipe />
       }
     ]
   }

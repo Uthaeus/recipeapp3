@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import { RecipeContext } from "../../store/recipe-context";
 import defaultImage from '../../assets/images/pasta_image.png';
@@ -42,6 +43,8 @@ function RecipeDetail() {
             </ul>
 
             <p>{recipe.instructions}</p>
+
+            <Link to={`/recipe/${id}/edit`}>Edit Recipe</Link>
         </div>
     );
 }
