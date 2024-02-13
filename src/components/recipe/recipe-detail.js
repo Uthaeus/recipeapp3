@@ -11,15 +11,7 @@ function RecipeDetail() {
     const { recipes } = useContext(RecipeContext);
 
     useEffect(() => {
-        // fetch(`/api/recipe/${id}`)
-        //     .then(res => res.json())
-        //     .then(data => setRecipe(data))
-        //     .catch(err => console.log(err));
-        for (let i = 0; i < recipes.length; i++) {
-            if (recipes[i].id === parseInt(id)) {
-                setRecipe(recipes[i]);
-            }
-        }
+        setRecipe(recipes.find((recipe) => recipe.id === id));
         setIsLoading(false);
     }, [recipes, id]);
 
