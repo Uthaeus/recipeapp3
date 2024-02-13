@@ -1,16 +1,17 @@
 import { useForm } from "react-hook-form";
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Link } from "react-router-dom";
 
 import { RecipeContext } from "../../store/recipe-context";
 import { db } from "../../firebase-config";
 import { storage } from "../../firebase-config";
 
-function EditRecipe({ recipe }) {
+function EditRecipe() {
 
-    const { id } = recipe;
+    const { id } = useParams();
 
     const { recipes, setRecipeList } = useContext(RecipeContext);
 
@@ -25,19 +26,18 @@ function EditRecipe({ recipe }) {
     const [ingredients, setIngredients] = useState([]);
     const [ingredient, setIngredient] = useState("");
     const [amount, setAmount] = useState("");
+    const [recipe, setRecipe] = useState({});
 
     const [image, setImage] = useState("");
     const [imageUpload, setImageUpload] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (recipe.ingredients) {
-            setIngredients(recipe.ingredients);
-        }
-
-        if (recipe.image) {
-            setImage(recipe.image);
-        }
-    }, [recipe]);
+        setRecipe(recipes.find((recipe) => recipe.id === +id));   
+        setIngredients(recipes.find((recipe) => recipe.id === +id).ingredients);
+        setImage(recipes.find((recipe) => recipe.id === +id).image); 
+        setIsLoading(false);
+    }, [recipes, id]);
 
     const addIngredient = () => {
         if (ingredient === "" || amount === "") {
@@ -55,37 +55,42 @@ function EditRecipe({ recipe }) {
     }
 
     const onSubmit = async (data) => {
-        try {
-            if (imageUpload) {
-                const imageRef = ref(storage, `images/${imageUpload.name}`);
-                await uploadBytes(imageRef, imageUpload);
-                const downloadURL = await getDownloadURL(imageRef);
-                setImage(downloadURL);
-            }
+        // try {
+        //     if (imageUpload) {
+        //         const imageRef = ref(storage, `images/${imageUpload.name}`);
+        //         await uploadBytes(imageRef, imageUpload);
+        //         const downloadURL = await getDownloadURL(imageRef);
+        //         setImage(downloadURL);
+        //     }
 
-            const newRecipe = {
-                title: data.title,
-                description: data.description,
-                time: data.time,
-                main_ingredient: data.main_ingredient,
-                ingredients: ingredients,
-                instructions: data.instructions,
-                image: image
-            }
+        //     const newRecipe = {
+        //         title: data.title,
+        //         description: data.description,
+        //         time: data.time,
+        //         main_ingredient: data.main_ingredient,
+        //         ingredients: ingredients,
+        //         instructions: data.instructions,
+        //         image: image
+        //     }
 
-            const index = recipes.findIndex((recipe) => recipe.id === id);
+        //     const index = recipes.findIndex((recipe) => recipe.id === id);
 
-            recipes[index] = newRecipe;
+        //     recipes[index] = newRecipe;
 
-            setRecipeList([...recipes]);
+        //     setRecipeList([...recipes]);
 
-            const docRef = doc(db, "recipes", id);
-            await updateDoc(docRef, newRecipe);
+        //     const docRef = doc(db, "recipes", id);
+        //     await updateDoc(docRef, newRecipe);
 
-            navigate('/');
-        } catch (error) {
-            console.error('Error updating recipe:', error);
-        }
+        //     navigate('/');
+        // } catch (error) {
+        //     console.error('Error updating recipe:', error);
+        // }
+        console.log('updating recipe...', data, ingredients);
+    }
+
+    if (isLoading) {
+        return <p>Loading...</p>;
     }
 
     return (
@@ -163,7 +168,7 @@ function EditRecipe({ recipe }) {
                         <p className="edit-ingredient-title">Current Ingredients</p>
                         <div className="form-group">
                             <ul>
-                                {ingredients.map((ingredient, index) => (
+                                {ingredients?.map((ingredient, index) => (
                                     <li key={index}>
                                         <p>{ingredient.ingredient}</p>
                                         <p>{ingredient.amount}</p>
@@ -207,19 +212,28 @@ function EditRecipe({ recipe }) {
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="image">Image</label>
-                    <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        onChange={(event) => {
-                            setImageUpload(event.target.files[0]);
-                        }}
-                    />
+                <div className="row">
+                    <div className="col-6">
+                        <p>Current Image:</p>
+                        <img src={recipe.image} alt={recipe.title} width='80%' />
+                    </div>
+                    
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="image">Image</label>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                onChange={(event) => {
+                                    setImageUpload(event.target.files[0]);
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                <button type="submit">Submit</button>
+                <button className="btn btn-primary" type="submit">Update Recipe</button>
             </form>
 
             <Link to="/">Back to Home</Link>

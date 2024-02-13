@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router";
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { deleteDoc } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 
 import { db } from "../../firebase-config";
 
