@@ -12,7 +12,7 @@ function EditRecipe({ recipe }) {
 
     const { id } = recipe;
 
-    const { recipes, setRecipes } = useContext(RecipeContext);
+    const { recipes, setRecipeList } = useContext(RecipeContext);
 
     const navigate = useNavigate();
 
@@ -55,34 +55,37 @@ function EditRecipe({ recipe }) {
     }
 
     const onSubmit = async (data) => {
+        try {
+            if (imageUpload) {
+                const imageRef = ref(storage, `images/${imageUpload.name}`);
+                await uploadBytes(imageRef, imageUpload);
+                const downloadURL = await getDownloadURL(imageRef);
+                setImage(downloadURL);
+            }
 
-        if (imageUpload) {
-            const imageRef = ref(storage, `images/${imageUpload.name}`);
-            await uploadBytes(imageRef, imageUpload);
-            const downloadURL = await getDownloadURL(imageRef);
-            setImage(downloadURL);
+            const newRecipe = {
+                title: data.title,
+                description: data.description,
+                time: data.time,
+                main_ingredient: data.main_ingredient,
+                ingredients: ingredients,
+                instructions: data.instructions,
+                image: image
+            }
+
+            const index = recipes.findIndex((recipe) => recipe.id === id);
+
+            recipes[index] = newRecipe;
+
+            setRecipeList([...recipes]);
+
+            const docRef = doc(db, "recipes", id);
+            await updateDoc(docRef, newRecipe);
+
+            navigate('/');
+        } catch (error) {
+            console.error('Error updating recipe:', error);
         }
-
-        const newRecipe = {
-            title: data.title,
-            description: data.description,
-            time: data.time,
-            main_ingredient: data.main_ingredient,
-            ingredients: ingredients,
-            instructions: data.instructions,
-            image: image
-        }
-
-        const index = recipes.findIndex((recipe) => recipe.id === id);
-
-        recipes[index] = newRecipe;
-
-        setRecipes([...recipes]);
-
-        const docRef = doc(db, "recipes", id);
-        await updateDoc(docRef, newRecipe);
-
-        navigate('/');
     }
 
     return (
@@ -154,29 +157,54 @@ function EditRecipe({ recipe }) {
                         </div>
                     </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="ingredients">Ingredients</label>
-                    <ul>
-                        {ingredients.map((ingredient, index) => (
-                            <li key={index}>
-                                <input
-                                    type="text"
-                                    id="ingredient"
-                                    name="ingredient"
-                                    defaultValue={ingredient.ingredient}
-                                    {...register(`ingredients.${index}.ingredient`)}
-                                />
-                                <input
-                                    type="text"
-                                    id="amount"
-                                    name="amount"
-                                    defaultValue={ingredient.amount}
-                                    {...register(`ingredients.${index}.amount`)}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                    <p className="add-ingredient" onClick={addIngredient}>Add Ingredient</p>
+
+                <div className="row">
+                    <div className="col-6">
+                        <p className="edit-ingredient-title">Current Ingredients</p>
+                        <div className="form-group">
+                            <ul>
+                                {ingredients.map((ingredient, index) => (
+                                    <li key={index}>
+                                        <p>{ingredient.ingredient}</p>
+                                        <p>{ingredient.amount}</p>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setIngredients(ingredients.filter((i) => i !== ingredient));
+                                            }}
+                                        >
+                                            Remove
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="form-group">
+                            <label htmlFor="ingredient">Ingredient</label>
+                            <input
+                                type="text"
+                                id="ingredient"
+                                name="ingredient"
+                                value={ingredient}
+                                onChange={(event) => setIngredient(event.target.value)}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="amount">Amount</label>
+                            <input
+                                type="text"
+                                id="amount"
+                                name="amount"
+                                value={amount}
+                                onChange={(event) => setAmount(event.target.value)}
+                            />
+                        </div>
+
+                        <p className="add-ingredient-btn" onClick={addIngredient}>Add Ingredient</p>
+                    </div>
                 </div>
 
                 <div className="form-group">
