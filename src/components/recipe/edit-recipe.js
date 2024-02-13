@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { collection, addDoc } from "firebase/firestore";
+import { updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { RecipeContext } from "../../store/recipe-context";
@@ -48,6 +48,12 @@ function EditRecipe({ recipe }) {
         setAmount("");
     }
 
+    const deleteRecipe = async () => {
+        const docRef = doc(db, "recipes", id);
+        await deleteDoc(docRef);
+        navigate('/');
+    }
+
     const onSubmit = async (data) => {
 
         if (imageUpload) {
@@ -72,6 +78,9 @@ function EditRecipe({ recipe }) {
         recipes[index] = newRecipe;
 
         setRecipes([...recipes]);
+
+        const docRef = doc(db, "recipes", id);
+        await updateDoc(docRef, newRecipe);
 
         navigate('/');
     }
@@ -184,6 +193,9 @@ function EditRecipe({ recipe }) {
 
                 <button type="submit">Submit</button>
             </form>
+
+            <Link to="/">Back to Home</Link>
+            <button onClick={() => deleteRecipe} className="delete-recipe-btn">Delete</button>
         </div>
     )
 }
