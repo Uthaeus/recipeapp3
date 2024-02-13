@@ -6,21 +6,22 @@ import RecipeItem from "../components/recipe/recipe-item";
 import Sidebar from "../components/sidebar/sidebar";
 
 function Home() {
+    const [isLoading, setIsLoading] = useState(true);
     const [recipeFilter, setRecipeFilter] = useState("");
     const [filteredRecipes, setFilteredRecipes] = useState([]);
     const { recipes } = useContext(RecipeContext);
 
     useEffect(() => {
-        if (recipeFilter === "") {
-            setFilteredRecipes(recipes);
-        } else {
-            setFilteredRecipes(recipes.filter((recipe) => recipe.main_ingredient === recipeFilter));
-        }
-        console.log(recipes);
-    }, [recipes, recipeFilter]);
+        setFilteredRecipes(recipes);
+        setIsLoading(false);
+    }, [recipes]);
 
     const handleFilterChange = (f) => {
         setRecipeFilter(f);
+    }
+
+    if (isLoading) {
+        return <p>Loading...</p>;
     }
 
     return (

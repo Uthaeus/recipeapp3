@@ -4,7 +4,7 @@ export const RecipeContext = createContext({
     recipes: [],
     addRecipe: () => {},
     removeRecipe: () => {},
-    setRecipeList: () => [],
+    setRecipeList: () => {}
 });
 
 

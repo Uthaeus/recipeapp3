@@ -1,12 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
 import { db } from "./firebase-config";
 import { collection, getDocs } from "firebase/firestore";
 
 import { RecipeContext } from "./store/recipe-context";
-
-import RecipeContextProvider from './store/recipe-context';
 
 import RootLayout from "./components/layouts/root-layout";
 import Home from "./pages/home";
@@ -34,7 +32,7 @@ const router = createBrowserRouter([
   }
 ])
 function App() {
-  const { setRecipeList } = useContext(RecipeContext);
+  const { recipes, setRecipeList } = useContext(RecipeContext);
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -45,13 +43,15 @@ function App() {
       });
       setRecipeList(recipesList);
     }
-    getRecipes();
+    
+    if (recipes.length === 0) {
+      console.log('setting recipes');
+      getRecipes();
+    }
   }, []);
   
   return (
-    <RecipeContextProvider>
-      <RouterProvider router={router} />
-    </RecipeContextProvider>  
+    <RouterProvider router={router} /> 
   );
 }
 
